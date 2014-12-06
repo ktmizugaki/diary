@@ -1,8 +1,6 @@
   <div class=bg>
-    <div class=text>\
-      <% my $first = 0; for my $year (@{index_years()}) { =%>
-        <%== '&nbsp;' unless $first == 0; $first = 1 =%>\
-        <%= link_to "${year}年度", url_for('diary', year => $year) %>\
-      <% } =%>\
-    </div>
+    <div class=text><% my $first = 0; for my $index (@{index_years()}) { =%>
+      <%== '&nbsp;' unless $first == 0; $first = 1 =%>\
+      <%= $index eq $year ? "${index}年度" : link_to "${index}年度", url_for('diary', year => $index) =%>\
+    <% } %></div>
   </div>
