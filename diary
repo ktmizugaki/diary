@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+use lib 'lib';
+use Mojolicious::Lite;
+use Diary;
+
+helper index_years => sub {
+    Diary::years;
+};
+
+get '/' => sub {
+  my $c = shift;
+  $c->stash(year => undef);
+  $c->render('index');
+} => 'index';
+
+get '/:year' => [year => qr/\d{4}/] => sub {
+  my $c = shift;
+  $c->render('diary');
+} => 'diary';
+
+
+app->start;
+__DATA__
+
+@@ index.html.ep
+% layout 'default';
+
+@@ diary.html.ep
+% layout 'default';
