@@ -3,6 +3,8 @@ use lib 'lib';
 use Mojolicious::Lite;
 use Diary;
 
+app->secrets(['diary']);
+
 helper index_years => sub {
     my $c = shift;
     Diary::years;
