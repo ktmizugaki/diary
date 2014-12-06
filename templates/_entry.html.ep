@@ -1,0 +1,8 @@
+  <div class=bg>
+    <div class=date><%= $entry->year %>/<%= $entry->month %>/<%= $entry->mday %> <%= sprintf "%4d", $entry->time %></div>
+    <div class=text>\
+      <% my $first = 0; for my $line (@{$entry->text}) { =%>\
+        <%== '<br/>' unless $first == 0; $first = 1%><%= $line =%>
+      <% } =%>\
+    </div>
+  </div>

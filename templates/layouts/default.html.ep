@@ -8,10 +8,7 @@
   <title>日記<% if ($year) { %> - <%= $year %>年度<% } %></title>
 </head>
 <body>
-  <div class=bg>
-    <div class=text><% for my $year (index_years) { %><%= link_to "${year}年度", url_for('diary', year => $year) %>&nbsp;<% } %></div>
-  </div>
-%= content
+<%= include 'layouts/_menu' =%>
+<%= content =%>
 </body>
 </html>
-<!DOCTYPE html>

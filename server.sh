@@ -10,12 +10,13 @@ mkusrdir() {
     fi
     if ! [ -d $dir ]; then
         mkdir -p $dir || exit 1
-        chown $USER.$USER $dir
     fi
+    chown $USER.$USER $dir
 }
 
 mkusrdir tmp
+mkusrdir log
 mkusrdir data
 
 su $USER -s /bin/bash -c 'eval $(perl -Mlocal::lib=$PWD/perl5);
-exec plackup -s FCGI --listen tmp/diary.socket -R ./templates ./diary'
+exec plackup -s FCGI --listen tmp/diary.socket --access-log log/access.log -R ./lib,./lib/Diary,./templates,./templates/layouts ./diary'

@@ -4,7 +4,13 @@ use Mojolicious::Lite;
 use Diary;
 
 helper index_years => sub {
+    my $c = shift;
     Diary::years;
+};
+
+helper entries_for_year => sub {
+    my $c = shift;
+    Diary::entries(@_);
 };
 
 get '/' => sub {
@@ -18,12 +24,4 @@ get '/:year' => [year => qr/\d{4}/] => sub {
   $c->render('diary');
 } => 'diary';
 
-
 app->start;
-__DATA__
-
-@@ index.html.ep
-% layout 'default';
-
-@@ diary.html.ep
-% layout 'default';
