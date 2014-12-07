@@ -18,5 +18,5 @@ mkusrdir tmp
 mkusrdir log
 mkusrdir data
 
-su $USER -s /bin/bash -c 'eval $(perl -Mlocal::lib=$PWD/perl5);
+exec su $USER -s /bin/bash -c 'eval $(perl -Mlocal::lib=$PWD/perl5);
 exec plackup -s FCGI --listen tmp/diary.socket --access-log log/access.log -R ./lib,./lib/Diary,./templates,./templates/layouts ./diary'
