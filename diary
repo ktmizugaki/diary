@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use lib 'lib';
+use Plack::Builder;
 use Mojolicious::Lite;
 use Diary;
 
@@ -16,14 +17,17 @@ helper entries_for_year => sub {
 };
 
 get '/' => sub {
-  my $c = shift;
-  $c->stash(year => undef);
-  $c->render('index');
+    my $c = shift;
+    $c->stash(year => undef);
+    $c->render('index');
 } => 'index';
 
 get '/:year' => [year => qr/\d{4}/] => sub {
-  my $c = shift;
-  $c->render('diary');
+    my $c = shift;
+    $c->render('diary');
 } => 'diary';
 
-app->start;
+builder {
+    enable "+MyRedirect";
+    app->start;
+}
