@@ -33,7 +33,9 @@ any [qw/GET POST/] => '/post' => sub {
         $v->required('time')->like(qr/\A\d{4}\z/)->check('is_time');
         $v->required('text');
         unless ($v->has_error) {
-            return $c->redirect_to('index');
+            if (my $entry = Diary::post($v->param('date'), $v->param('time'), $v->param('text'))) {
+                return $c->redirect_to('index');
+            }
         }
     }
     my ($date, $time) = Diary::now;

@@ -4,6 +4,7 @@ use warnings;
 use Time::Piece;
 use Diary::Entry;
 use Diary::Date qw/index_year/;
+use File::Path qw/make_path/;
 
 sub is_date {
     my ($validation, $name, $value) = @_;
@@ -57,6 +58,15 @@ sub entries {
         }
     }
     return \@entries;
+}
+
+sub post {
+    my ($date, $time, $text) = @_;
+    my $d = Diary::Date->new($date);
+    my $dir = sprintf "data/%04d/%04d%02d", index_year($d), $d->year, $d->month;
+    my $name = sprintf "%04d%02d%02d%04d.txt", $d->year, $d->month, $d->mday, $time;
+    make_path $dir;
+    return Diary::Entry->save($dir."/".$name, $date, $time, $text);
 }
 
 1;
