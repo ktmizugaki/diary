@@ -1,6 +1,5 @@
 package MyRedirect;
 use parent qw( Plack::Middleware );
-use Data::Dumper;
 
 sub scheme {
     my $addr = shift;
