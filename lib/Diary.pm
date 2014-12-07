@@ -5,6 +5,24 @@ use Time::Piece;
 use Diary::Entry;
 use Diary::Date qw/index_year/;
 
+sub is_date {
+    my ($validation, $name, $value) = @_;
+    return 1 unless $value =~ /\A\d{4}(\d{2})(\d{2})\z/;
+    my ($month, $date) = ($1, $2);
+    return 1 unless $month >= 1 && $month <= 12;
+    return 1 unless $date >= 1 && $date <= 31;
+    return undef;
+}
+
+sub is_time {
+    my ($validation, $name, $value) = @_;
+    return 1 unless $value =~ /\A(\d{2})(\d{2})\z/;
+    my ($hour, $min) = ($1, $2);
+    return 1 unless $hour >= 0 && $hour <= 32;
+    return 1 unless $min >= 0 && $min < 60;
+    return undef;
+}
+
 sub now {
     my $t = localtime;
     my $date = sprintf "%04d%02d%02d", $t->year, $t->mon, $t->mday;

@@ -25,6 +25,17 @@ get '/' => sub {
 any [qw/GET POST/] => '/post' => sub {
     my $c = shift;
     $c->stash(year => undef);
+    my $v = $c->validation;
+    $v->validator->add_check('is_date', \&Diary::is_date);
+    $v->validator->add_check('is_time', \&Diary::is_time);
+    if (lc $c->req->method eq 'post' &&  $v->has_data) {
+        $v->required('date')->like(qr/\A\d{8}\z/)->check('is_date');
+        $v->required('time')->like(qr/\A\d{4}\z/)->check('is_time');
+        $v->required('text');
+        unless ($v->has_error) {
+            return $c->redirect_to('index');
+        }
+    }
     my ($date, $time) = Diary::now;
     $c->param(date => $date) unless $c->param('date');
     $c->param(time => $time) unless $c->param('time');
