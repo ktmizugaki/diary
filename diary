@@ -22,6 +22,17 @@ get '/' => sub {
     $c->render('index');
 } => 'index';
 
+any [qw/GET POST/] => '/post' => sub {
+    my $c = shift;
+    $c->stash(year => undef);
+    my ($date, $time) = Diary::now;
+    $c->param(date => $date) unless $c->param('date');
+    $c->param(time => $time) unless $c->param('time');
+    $c->param(text => "") unless $c->param('text');
+
+    $c->render('post');
+} => 'post';
+
 get '/:year' => [year => qr/\d{4}/] => sub {
     my $c = shift;
     $c->render('diary');

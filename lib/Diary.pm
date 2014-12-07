@@ -5,6 +5,13 @@ use Time::Piece;
 use Diary::Entry;
 use Diary::Date qw/index_year/;
 
+sub now {
+    my $t = localtime;
+    my $date = sprintf "%04d%02d%02d", $t->year, $t->mon, $t->mday;
+    my $time = sprintf "%02d%02d", $t->hour, $t->min;
+    return ($date, $time);
+}
+
 my $last_checked_year = 0;
 my $last_years;
 

@@ -1,4 +1,7 @@
 div.bg { margin:1em 0px; }
 div.bg div { border:solid 1px #f80; padding:3px; layout-grid:line loose 0.3em none; }
-div.bg div.date { border-bottom-width:0px; width:200px; }
+div.bg div.date, div.bg div.middle { border-bottom-width:0px; }
+div.bg div.date { width:220px; }
 div.bg div.text { width:800px; }
+div.bg div.date input, div.bg div.text textarea { border: solid 2px #888; }
+div.bg div.text textarea { width: 794px; }

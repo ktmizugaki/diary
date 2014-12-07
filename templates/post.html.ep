@@ -1,0 +1,8 @@
+% layout 'default';
+  <%= form_for 'post' => (method => 'post') => begin %>
+  <div class="bg">
+    <div class="date">日&nbsp;<%= text_field 'date', length=>8, size=>9 %>&nbsp;時&nbsp;<%= text_field 'time', length=>4, size=>5 %></div>
+    <div class="text middle"><%= text_area 'text' %></div>
+    <div class="text"><%= submit_button '書き込み' %></div>
+  </div>
+  <% end %>
