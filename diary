@@ -4,7 +4,16 @@ use Plack::Builder;
 use Mojolicious::Lite;
 use Diary;
 
+use constant DATA_TGZ => "tmp/data.tgz";
+use constant LAST_POST => "tmp/last_post";
+
+sub mtime {
+    my ($path) = @_;
+    return (stat($path))[9];
+}
+
 app->secrets(['diary']);
+app->types->type('tgz' => ['application/x-gzip']);
 
 helper index_years => sub {
     my $c = shift;
@@ -34,6 +43,7 @@ any [qw/GET POST/] => '/post' => sub {
         $v->required('text');
         unless ($v->has_error) {
             if (my $entry = Diary::post($v->param('date'), $v->param('time'), $v->param('text'))) {
+                system("/bin/touch", LAST_POST);
                 return $c->redirect_to('index');
             }
         }
@@ -45,6 +55,14 @@ any [qw/GET POST/] => '/post' => sub {
 
     $c->render('post');
 } => 'post';
+
+get '/data.tgz' => [format => 0] => sub {
+    my $c = shift;
+    if (mtime(DATA_TGZ) < mtime(LAST_POST)) {
+        system("/bin/tar", "zcf", DATA_TGZ, "data");
+    }
+    $c->reply->static("../".DATA_TGZ);
+} => 'datatgz';
 
 get '/:year' => [year => qr/\d{4}/] => sub {
     my $c = shift;
