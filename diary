@@ -27,13 +27,13 @@ helper entries_for_year => sub {
 
 get '/' => sub {
     my $c = shift;
-    $c->stash(year => undef);
+    $c->stash(year => "");
     $c->render('index');
 } => 'index';
 
 any [qw/GET POST/] => '/post' => sub {
     my $c = shift;
-    $c->stash(year => undef);
+    $c->stash(year => "");
     my $v = $c->validation;
     $v->validator->add_check('is_date', \&Diary::is_date);
     $v->validator->add_check('is_time', \&Diary::is_time);
