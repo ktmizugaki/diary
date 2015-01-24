@@ -25,6 +25,11 @@ helper entries_for_year => sub {
     Diary::entries(@_);
 };
 
+helper entry_index_year => sub {
+    my $c = shift;
+    Diary::entry_index_year(@_);
+};
+
 get '/' => sub {
     my $c = shift;
     $c->stash(year => "");
@@ -44,7 +49,7 @@ any [qw/GET POST/] => '/post' => sub {
         unless ($v->has_error) {
             if (my $entry = Diary::post($v->param('date'), $v->param('time'), $v->param('text'))) {
                 system("/bin/touch", LAST_POST);
-                return $c->redirect_to('index');
+                return $c->redirect_to('diary', {year=>$c->entry_index_year($entry)});
             }
         }
     }
@@ -58,6 +63,7 @@ any [qw/GET POST/] => '/post' => sub {
 
 get '/data.tgz' => [format => 0] => sub {
     my $c = shift;
+    return $c->render_not_found unless $c->tx->remote_address =~ /192\.168\.1\.\d+/;
     if (mtime(DATA_TGZ) < mtime(LAST_POST)) {
         system("/bin/tar", "zcf", DATA_TGZ, "data");
     }

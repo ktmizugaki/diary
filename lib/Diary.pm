@@ -69,4 +69,9 @@ sub post {
     return Diary::Entry->save($dir."/".$name, $date, $time, $text);
 }
 
+sub entry_index_year {
+    my ($entry) = @_;
+    return index_year($entry);
+}
+
 1;
