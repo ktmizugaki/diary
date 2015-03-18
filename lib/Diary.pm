@@ -50,6 +50,8 @@ sub entries {
     my @files = glob("data/$year/??????/????????????.txt");
     my @entries = ();
     unless (@files) {
+        my @years = grep { $_ ne $year } @$last_years;
+        $last_years = \@years;
         die "files not found";
     }
     for my $file (@files) {
@@ -66,6 +68,7 @@ sub post {
     my $dir = sprintf "data/%04d/%04d%02d", index_year($d), $d->year, $d->month;
     my $name = sprintf "%04d%02d%02d%04d.txt", $d->year, $d->month, $d->mday, $time;
     make_path $dir;
+    undef($last_years);
     return Diary::Entry->save($dir."/".$name, $date, $time, $text);
 }
 

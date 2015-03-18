@@ -1,4 +1,4 @@
 % layout 'default';
-% for my $entry (@{entries_for_year($year)}) {
+% for my $entry (@$entries) {
 <%= include '_entry', entry => $entry =%>
 % }

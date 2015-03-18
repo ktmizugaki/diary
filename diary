@@ -73,7 +73,9 @@ get '/data.tgz' => [format => 0] => sub {
 get '/:year' => [year => qr/\d{4}/] => sub {
     my $c = shift;
     my $year = $c->stash('year');
-    return $c->render_not_found unless grep(/^$year$/, @{$c->index_years});
+    my $entries = eval { $c->entries_for_year($year); };
+    return $c->render_not_found if $@;
+    $c->stash('entries', $entries);
     $c->render('diary');
 } => 'diary';
 
