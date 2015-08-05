@@ -3,6 +3,8 @@ div.bg div { border:solid 1px #f80; padding:3px; layout-grid:line loose 0.3em no
 div.bg div.date, div.bg div.middle { border-bottom-width:0px; }
 div.bg div.date { width:220px; }
 div.bg div.text { width:800px; }
+div.bg div.date a.edit { text-decoration:none; opacity:0; float:right; }
+div.bg div.date a.edit:hover { opacity:1; }
 div.bg div.date input, div.bg div.text textarea { border: solid 2px #ccc; }
 div.bg div.text textarea { width: 794px; }
 .field-with-error { border: solid 2px #f00 !important; }

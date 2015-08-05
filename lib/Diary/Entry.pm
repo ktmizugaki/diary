@@ -23,6 +23,11 @@ sub mday {
     $_[0]->{date}->{mday};
 }
 
+sub date {
+    my $date = $_[0]->{date};
+    $date->year.$date->month.$date->mday;
+}
+
 sub time {
     $_[0]->{time};
 }

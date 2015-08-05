@@ -62,6 +62,14 @@ sub entries {
     return \@entries;
 }
 
+sub get {
+    my ($date) = @_;
+    return undef unless $date =~ /(\d{4})(\d{2})\d{6}/;
+    my ($year, $month) = ($1, $2);
+    my $file = "data/$year/$year$month/$date.txt";
+    return eval{ Diary::Entry->load($file); };
+}
+
 sub post {
     my ($date, $time, $text) = @_;
     my $d = Diary::Date->new($date);

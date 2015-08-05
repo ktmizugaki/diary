@@ -36,7 +36,7 @@ get '/' => sub {
     $c->render('index');
 } => 'index';
 
-any [qw/GET POST/] => '/post' => sub {
+any [qw/GET POST/] => '/post/:d' => {d => ''} => [d => qr/\d{12}/] => sub {
     my $c = shift;
     $c->stash(year => "");
     my $v = $c->validation;
@@ -54,9 +54,16 @@ any [qw/GET POST/] => '/post' => sub {
         }
     }
     my ($date, $time) = Diary::now;
+    if (!$c->param('text') && $c->param('d')) {
+        if (my $entry = Diary::get($c->param('d'))) {
+            $c->param(date => $entry->date);
+            $c->param(time => $entry->time);
+            # 'text' is RESERVED in controller.
+            $c->req->params->param(text => join "\n", @{$entry->text});
+        }
+    }
     $c->param(date => $date) unless $c->param('date');
     $c->param(time => $time) unless $c->param('time');
-    $c->param(text => "") unless $c->param('text');
 
     $c->render('post');
 } => 'post';
