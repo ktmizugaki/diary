@@ -64,9 +64,10 @@ sub entries {
 
 sub get {
     my ($date) = @_;
-    return undef unless $date =~ /(\d{4})(\d{2})\d{6}/;
-    my ($year, $month) = ($1, $2);
-    my $file = "data/$year/$year$month/$date.txt";
+    return undef unless $date =~ /^(\d{4})(\d{2})(\d{2})\d{4}$/;
+    my ($year, $month, $mday) = ($1, $2, $3);
+    my $iyear = index_year($year, $month, $mday);
+    my $file = "data/${iyear}/${year}${month}/$date.txt";
     return eval{ Diary::Entry->load($file); };
 }
 
