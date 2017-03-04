@@ -3,7 +3,7 @@ use parent qw( Plack::Middleware );
 
 sub scheme {
     my $addr = shift;
-    if ($addr =~ /192\.168\.1\.\d+/) {
+    if ($addr =~ /192\.168\.\d+\.\d+|127\.\d+\.\d+\.\d+/) {
         return 'http';
     } else {
         return 'https';
