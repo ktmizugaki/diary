@@ -1,6 +1,8 @@
 #!/bin/sh
 
-USER=nginx
+if [ "$UID" = "0" ]; then
+    USER=nginx
+fi
 
 mode=$1
 
@@ -13,7 +15,7 @@ mkusrdir() {
     if ! [ -d $dir ]; then
         mkdir -p $dir || exit 1
     fi
-    chown $USER.$USER $dir
+    chown -R $USER:$USER $dir || exit 1
 }
 
 mkusrdir tmp
