@@ -1,5 +1,5 @@
   <div class="bg">
-    <div class="date"><%= $entry->year %>/<%= $entry->month %>/<%= $entry->mday %> <%= sprintf "%4d", $entry->time %><%= link_to sub{"&crarr;"}, url_for('post', d => $entry->date.$entry->time), (class => 'edit') =%>\
+    <div class="date"><%= $entry->year %>/<%= $entry->month %>/<%= $entry->mday %> <%= $entry->time %><%= link_to sub{"&crarr;"}, url_for('post', d => $entry->date.$entry->time), (class => 'edit') =%>\
 </div>
     <div class="text"><% my $first = 0; for my $line (@{$entry->text}) { =%>\
         <%== '<br/>' unless $first == 0; $first = 1%><%== $line =%>\
