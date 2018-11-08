@@ -87,6 +87,5 @@ get '/:year' => [year => qr/\d{4}/] => sub {
 } => 'diary';
 
 builder {
-    enable "+MyRedirect";
     app->start;
 }
