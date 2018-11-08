@@ -2,6 +2,7 @@
 
 if [ "$UID" = "0" ]; then
     USER=nginx
+    RUN_AS="su $USER -s"
 fi
 
 mode=$1
@@ -40,5 +41,5 @@ else
     options="--access-log log/access.log -R ./lib,./lib/Diary,./templates,./templates/layouts"
 fi
 
-exec su $USER -s /bin/bash -c 'eval $(perl -Mlocal::lib=$PWD/perl5);
+exec $RUN_AS /bin/bash -c 'eval $(perl -Mlocal::lib=$PWD/perl5);
 exec plackup -s FCGI -l tmp/diary.socket '"$options"' ./diary'
